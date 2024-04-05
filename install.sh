@@ -1,0 +1,1 @@
+/home/vl/dev-build/common-data/content-scripts/collect-me-install.sh
