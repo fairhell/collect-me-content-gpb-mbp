@@ -168,7 +168,7 @@ rest_schema = {
     },
     T_OUTPUT: {
         T_TABLES: {
-            't_' + DAG_ID: db_columns_list
+            SCHEMA  + '.t_' + DAG_ID: db_columns_list
         }
     }
 }
