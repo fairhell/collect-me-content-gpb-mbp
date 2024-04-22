@@ -1,10 +1,9 @@
 """
 Получение данных из БД Oracle (SELECT запрос) порциями, на основе ключа.<br>
 <br>
-В SELECT запросе можно указать любые колонки для чтения, но важно чтобы потом эти же колонки были прописаны в схеме (в примере ниже - db_data)<br>
-В схеме в SELECT  запросе задаем размер порции для чтения  (LIMIT, TOP ..)<br>
+В SELECT запросе указаны колонки для чтения, и эти же колонки прописаны в схеме db_data)<br>
 Также обязательно указываем конструкцию, чтобы можно было считать верную порцию, например:<br>
-.. WHERE contract_date >= '__ NEXT_START_VALUE __' ORDER BY contract_date ASC ..<br>
+.. WHERE some_column >= '__ NEXT_START_VALUE __' ORDER BY contract_date ASC ..<br>
 Здесь __ NEXT_START_VALUE __ будет автоматически заменено на последнее значение из предыдущей порции данных<br>
 <br>
 _Особенности:_<br>
@@ -12,8 +11,7 @@ _Особенности:_<br>
 * Если критерию ключа соответствует несколько записей - они корреткно обрабатываются<br>
 * Данные для __ NEXT_START_VALUE __ сохраняются в папке dags/realtime/*<br>
 <br>
-Задание необходимо выполнять после выполнения задания demo_sales (данные берутся из него)<br>
-Расписание - @once<br>
+Расписание - каждые 5 минут (*/5 * * * *)<br>
 """
 #
 # Автор: Владимир
@@ -28,7 +26,7 @@ from airflow.utils.dates import days_ago
 # импортируем переменные и параметры подключений из конфиг файла
 from config.const import *
 from config.common import DEFAULT_DAG_ARGS
-from config.config_mbp import CUSTOMER, ORA_CONN_3
+from config.config_mbp import CUSTOMER
 
 from utils.common import start_end_ops, create_tables_op, insert_cleanup_ops
 from utils.data_to_sql import db_columns_from_schemas
@@ -40,17 +38,20 @@ local_tz = pendulum.timezone('Europe/Moscow')
 # Основные параметры
 DAG_ID = basename(__file__).replace(FILE_PY, '')
 START_DATE = datetime.datetime(2024, 1, 1, tzinfo = local_tz)
+CONN_FROM = 'ORA_mfsm_srv'
+CONN_TO = 'PG_events'
+SCHEMA = 'smft'
 
 # Сопоставление колонок в исходной БД и БД для записи
 db_data = {
     # Подключение к БД Oracle
-    ORA_CONN_3: {
+    CONN_FROM: {
         # Название таблицы - не используется, т.к. мы используем собственный SQL SELECT запрос
         ANY: { 
             T_COLUMNS: {
                 'REQUEST_ID' : { 'request_id': TYPE_STR },
-                'PROCESSING_STATE_TIME' : { 'dt_processing_state_time': TYPE_TIMESTAMP },
-                'VALIDATE_STATE_TIME' : { 'dt_validate_state_time': TYPE_TIMESTAMP },
+                'PROCESSING_STATE_TIME' : { 'processing_state_time': TYPE_TIMESTAMP },
+                'VALIDATE_STATE_TIME' : { 'validate_state_time': TYPE_TIMESTAMP },
             },
             T_OPTIONS: {
                 T_COLUMNS: T_KEYWORDS,
@@ -62,14 +63,13 @@ db_data = {
 # .. WHERE contract_date >= '__NEXT_START_VALUE__' ORDER BY contract_date ASC ..
 # Здесь __NEXT_START_VALUE__ будет автоматически заменено на последнее значение из
 # предыдущей порции данных
-"SELECT REQUEST_ID, PROCESSING_STATE_TIME, VALIDATE_STATE_TIME FROM GPBSMFLSMSM1 \
-WHERE PROCESSING_STATE_TIME >= '__NEXT_START_VALUE__' \
-ORDER BY PROCESSING_STATE_TIME ASC \
-LIMIT 50;",
+"SELECT REQUEST_ID, to_char(PROCESSING_STATE_TIME, 'YYYY-MM-DD HH24:MI:SS') PROCESSING_STATE_TIME, to_char(VALIDATE_STATE_TIME, 'YYYY-MM-DD HH24:MI:SS') VALIDATE_STATE_TIME FROM smadmin.GPBSMFLSMSM1 \
+WHERE PROCESSING_STATE_TIME >= to_date('__NEXT_START_VALUE__', 'YYYY-MM-DD HH24:MI:SS') \
+ORDER BY PROCESSING_STATE_TIME ASC",
                 # Колонка ключа, используется для сохранения __NEXT_START_VALUE__
                 T_KEY_COLUMN: 'PROCESSING_STATE_TIME',
                 # Стартовое значение ключа, используется в __NEXT_START_VALUE__, если нет сохраненного
-                T_START_VALUE: '01-01-2024',
+                T_START_VALUE: '2024-03-28 00:00:00',
             }
         }
     }
@@ -88,16 +88,16 @@ db_schema = {
     },
     T_TRANSFORM: {
         T_OPTIONS: {
-            T_DATA: 'not_merge'
+            T_DATA: DATA_NOT_MERGE,
         },
         # Добавить колонку времени (когда собрали данные)
         DATETIME_ADD: {
-            T_DT_COLUMN: 'dt_collected',
+            T_DT_COLUMN: 'date_collected',
         }
     },
     T_OUTPUT: {
         T_TABLES: {
-            't_' + DAG_ID: db_columns_list
+            SCHEMA + '.t_' + DAG_ID: db_columns_list
         }
     }
 }
@@ -119,7 +119,7 @@ with DAG(
 
     # оператор создания структуры таблиц и представлений
     create_tables = create_tables_op(
-        dag_id = DAG_ID, customer = CUSTOMER)
+        dag_id = DAG_ID, customer = CUSTOMER, connId = CONN_TO)
 
     # оператор получения данных (в данном случае из БД) и подготовки SQL для записи
     extract_data, prepare_sql = extract_prepare_db_ops(
@@ -127,7 +127,8 @@ with DAG(
 
     # оператор записи SQL в БД Репорт!Ми, оператор очистки (при необходимости)
     insert_data, cleanup = insert_cleanup_ops(
-        dag_id = DAG_ID)
+        dag_id = DAG_ID,
+        connId = CONN_TO)
 
     # последовательность выполения операторов
     start >> create_tables >> extract_data >> prepare_sql >> insert_data >> cleanup >> end

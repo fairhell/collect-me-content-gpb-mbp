@@ -3,17 +3,17 @@
 -- 2024
 --
 
---DROP TABLE IF EXISTS t_gpbsmflstepm1_raw;
+--DROP TABLE IF EXISTS smft.t_mbp_gpbsmflstepm1;
 
 
 --
 -- Основная таблица
 --
-CREATE TABLE IF NOT EXISTS t_gpbsmflstepm1_raw (
-    dt_sys_collected TIMESTAMP WITHOUT TIME ZONE  NOT NULL,     -- метка времени
-    id_sys SERIAL PRIMARY KEY,       -- ключ
+CREATE TABLE IF NOT EXISTS smft.t_mbp_gpbsmflstepm1 (
+    skey BIGSERIAL PRIMARY KEY,       -- ключ
+    date_collected TIMESTAMP NOT NULL,     -- метка времени
 
-    incident_id VARCHAR(60) NOT NULL DEFAULT '',
-    dt_create_date TIMESTAMP WITHOUT TIME ZONE  NOT NULL,
-    dt_work_start_time TIMESTAMP WITHOUT TIME ZONE  NOT NULL,
-    assignment VARCHAR(255) NOT NULL DEFAULT '');
+    incident_id TEXT NULL,
+    create_time TIMESTAMP NULL,
+    work_start_time TIMESTAMP NULL,
+    assignment TEXT NULL);

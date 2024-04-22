@@ -3,16 +3,16 @@
 -- 2024
 --
 
---DROP TABLE IF EXISTS t_sys_all_events;
+--DROP TABLE IF EXISTS smft.t_mbp_sys_all_events;
 
 
 --
 -- Основная таблица
 --
-CREATE TABLE IF NOT EXISTS t_sys_all_events_raw (
-    dt_sys_collected TIMESTAMP WITHOUT TIME ZONE  NOT NULL,     -- метка времени
-    id_sys SERIAL PRIMARY KEY,       -- ключ
+CREATE TABLE IF NOT EXISTS smft.t_mbp_sys_all_events (
+    skey BIGSERIAL PRIMARY KEY,       -- ключ
+    date_collected TIMESTAMP NOT NULL,     -- метка времени
 
-    id VARCHAR(100) NOT NULL DEFAULT '',
-    client_trx_id VARCHAR(255) NOT NULL DEFAULT '',
-    dt_event_time TIMESTAMP WITHOUT TIME ZONE  NOT NULL);
+    id TEXT NULL,
+    client_trx_id TEXT NULL,
+    event_time TIMESTAMP NULL);
