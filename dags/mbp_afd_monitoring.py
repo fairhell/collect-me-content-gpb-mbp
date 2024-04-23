@@ -71,6 +71,9 @@ ORDER BY CREATION_DATE ASC",
                 T_KEY_COLUMN: 'CREATION_DATE',
                 # Стартовое значение ключа, используется в __NEXT_START_VALUE__, если нет сохраненного
                 T_START_VALUE: '2024-04-09 00:00:00',
+                # Текущее время - TYPE_CURRENT_TIME или  TYPE_VALUE_FROM_DATA - данные из ответа
+                T_START_VALUE_TYPE: TYPE_VALUE_FROM_DATA,
+
             },
             T_TRANSFORM: {
                 'resp_p_delay': 'calc_resp_p_delay',

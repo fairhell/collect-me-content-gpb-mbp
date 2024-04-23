@@ -51,7 +51,7 @@ db_data = {
             T_COLUMNS: {
                 'INCIDENT_ID' : { 'incident_id': TYPE_STR },
                 'CREATE_TIME' : { 'create_time': TYPE_TIMESTAMP },
-                'WORK_STATE_TIME' : { 'work_state_time': TYPE_TIMESTAMP },
+                'WORK_START_TIME' : { 'work_start_time': TYPE_TIMESTAMP },
                 'ASSIGNMENT' : { 'assignment': TYPE_STR },
             },
             T_OPTIONS: {
@@ -64,13 +64,15 @@ db_data = {
 # .. WHERE contract_date >= '__NEXT_START_VALUE__' ORDER BY contract_date ASC ..
 # Здесь __NEXT_START_VALUE__ будет автоматически заменено на последнее значение из
 # предыдущей порции данных
-"SELECT INCIDENT_ID, to_char(CREATE_TIME, 'YYYY-MM-DD HH24:MI:SS') CREATE_TIME, to_char(WORK_STATE_TIME, 'YYYY-MM-DD HH24:MI:SS') WORK_STATE_TIME, ASSIGNMENT FROM smadmin.GPBSMFLSTEPM1 \
+"SELECT INCIDENT_ID, to_char(CREATE_TIME, 'YYYY-MM-DD HH24:MI:SS') CREATE_TIME, to_char(WORK_START_TIME, 'YYYY-MM-DD HH24:MI:SS') WORK_START_TIME, ASSIGNMENT FROM smadmin.GPBSMFLSTEPM1 \
 WHERE CREATE_TIME >= to_date('__NEXT_START_VALUE__', 'YYYY-MM-DD HH24:MI:SS') \
 ORDER BY CREATE_TIME ASC",
                 # Колонка ключа, используется для сохранения __NEXT_START_VALUE__
                 T_KEY_COLUMN: 'CREATE_TIME',
                 # Стартовое значение ключа, используется в __NEXT_START_VALUE__, если нет сохраненного
                 T_START_VALUE: '2024-04-09 00:00:00',
+                # Текущее время - TYPE_CURRENT_TIME или  TYPE_VALUE_FROM_DATA - данные из ответа
+                T_START_VALUE_TYPE: TYPE_VALUE_FROM_DATA,
             }
         }
     }

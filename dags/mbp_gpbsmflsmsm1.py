@@ -70,6 +70,8 @@ ORDER BY PROCESSING_STATE_TIME ASC",
                 T_KEY_COLUMN: 'PROCESSING_STATE_TIME',
                 # Стартовое значение ключа, используется в __NEXT_START_VALUE__, если нет сохраненного
                 T_START_VALUE: '2024-03-28 00:00:00',
+                # Текущее время - TYPE_CURRENT_TIME или  TYPE_VALUE_FROM_DATA - данные из ответа
+                T_START_VALUE_TYPE: TYPE_VALUE_FROM_DATA,
             }
         }
     }
