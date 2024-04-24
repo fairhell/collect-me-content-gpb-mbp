@@ -193,7 +193,7 @@ with DAG(
 
     operators = {
         T_BEFORE: create_tables,
-        T_AFTER: extract_data
+        T_AFTER: extract_data,
     }
 
     rest_ops(dag_id = DAG_ID, input_schema = rest_schema[T_INPUT], operators = operators)

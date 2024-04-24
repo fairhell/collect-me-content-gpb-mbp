@@ -39,7 +39,7 @@ local_tz = pendulum.timezone('Europe/Moscow')
 DAG_ID = basename(__file__).replace(FILE_PY, '')
 START_DATE = datetime.datetime(2023, 1, 1, tzinfo = local_tz)
 API_TOKEN = Variable.get('Soar_token', default_var = None)
-CONN_FROM = 'SOAR_nagios'
+CONN_FROM = 'REST_soar'
 CONN_TO = 'PG_events'
 SCHEMA = 'soar'
 
