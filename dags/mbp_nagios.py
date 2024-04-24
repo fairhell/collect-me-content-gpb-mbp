@@ -158,7 +158,7 @@ rest_schema = {
         },
         # Добавить колонку времени (когда собрали данные)
         DATETIME_ADD: {
-            T_DT_COLUMN: 'dt_collected',
+            T_DT_COLUMN: 'date_collected',
         }
     },
     T_OUTPUT: {
