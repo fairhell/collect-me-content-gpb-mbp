@@ -89,5 +89,53 @@ def calc_resp_p_val(data: str):
                 break
     return result
 
+def replace_soar_start_value(options: list, start_value):
+    options[3].update({ 'value': start_value })
+    return options
+
+
+def soar_preprocess_data(data: list):
+    import pandas as pd
+
+    schema = {
+        'creation': 'creation_date',
+        'closure_date': 'closure_date',
+        'updated': 'updated_date',
+
+        'identifier': 'identifier',
+        'description': 'description',
+        'incident_owner': {
+            'id': 'inc_owner_id',
+            'name': 'inc_owner_name',
+            'uuid': 'inc_owner_uuid',
+        },
+        'irp_arcdstip': 'irp_dst_ip',
+        'irp_arcsrcip': 'irp_src_ip',
+        'level': {
+            'id': 'level_id',
+            'name': 'level_name',
+        },
+        'status': {
+            'id': 'status_id',
+            'name': 'status_name',
+        },
+    }
+
+    json_list = []
+
+    for item in data:
+        plain_json = {}
+
+        for schema_key in schema.keys():
+            if isinstance(schema_key, dict):
+                for nested_key in schema_key.keys():
+                    plain_json.update({ schema.get(schema_key).get(nested_key): item.get(nested_key) })
+            else:
+                plain_json.update({ schema.get(schema_key): item.get(nested_key) })
+
+        json_list.append(plain_json)
+
+    return pd.json_normalize(json_list)
+
 # Конец секции hvrfRnVLKcak1Xty. Не удаляйте данную строку!
 
