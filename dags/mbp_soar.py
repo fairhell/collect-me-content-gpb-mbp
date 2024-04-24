@@ -175,7 +175,7 @@ with DAG(
 
     # оператор создания структуры таблиц и представлений
     create_tables = create_tables_op(
-        dag_id = DAG_ID, customer = CUSTOMER)
+        dag_id = DAG_ID, customer = CUSTOMER, connId = CONN_TO)
 
     # оператор получения данных (в данном случае из REST API) и подготовки SQL для записи
     extract_data, prepare_sql = extract_prepare_rest_ops(
@@ -190,7 +190,8 @@ with DAG(
 
     # оператор записи SQL в БД Репорт!Ми, оператор очистки (при необходимости)
     insert_data, cleanup = insert_cleanup_ops(
-        dag_id = DAG_ID)
+        dag_id = DAG_ID,
+        connId = CONN_TO)
 
     # последовательность выполения операторов
     start >> create_tables
