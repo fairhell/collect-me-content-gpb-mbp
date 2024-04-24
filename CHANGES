@@ -1,3 +1,6 @@
+1.11
+Fix config_demo -> config_mbp
+
 1.10
 Удален расчет p_resp_val, p_resp_delay в afd_monitoring
 

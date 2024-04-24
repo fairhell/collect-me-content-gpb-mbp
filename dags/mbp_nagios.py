@@ -29,7 +29,7 @@ from airflow.models import Variable
 # импортируем переменные и параметры подключений из конфиг файла
 from config.const import *
 from config.common import DEFAULT_DAG_ARGS, PG_BASE_CONN
-from config.config_demo import CUSTOMER
+from config.config_mbp import CUSTOMER
 
 from utils.common import start_end_ops, create_tables_op, insert_cleanup_ops
 from utils.data_to_sql import db_columns_from_schemas
