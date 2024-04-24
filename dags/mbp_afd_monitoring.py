@@ -51,7 +51,7 @@ db_data = {
             T_COLUMNS: {
                 'ID' : { 'id': TYPE_STR },
                 'CREATION_DATE' : { 'creation_date': TYPE_TIMESTAMP },
-                'RESP_PRCNT': { 'resp_prcnt': TYPE_STR, 'resp_p_delay': TYPE_FLOAT, 'resp_p_val': TYPE_FLOAT },
+                'RESP_PRCNT': { 'resp_prcnt': TYPE_STR },
                 'RESP_MAX' : { 'resp_max': TYPE_FLOAT },
             },
             T_OPTIONS: {
@@ -74,10 +74,6 @@ ORDER BY CREATION_DATE ASC",
                 # Текущее время - TYPE_CURRENT_TIME или  TYPE_VALUE_FROM_DATA - данные из ответа
                 T_START_VALUE_TYPE: TYPE_VALUE_FROM_DATA,
 
-            },
-            T_TRANSFORM: {
-                'resp_p_delay': 'calc_resp_p_delay',
-                'resp_p_val': 'calc_resp_p_val',
             },
         }
     }

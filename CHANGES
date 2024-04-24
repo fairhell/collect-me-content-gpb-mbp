@@ -1,3 +1,6 @@
+1.10
+Удален расчет p_resp_val, p_resp_delay в afd_monitoring
+
 1.9
 Указан тип START_VALUE_TYPE
 

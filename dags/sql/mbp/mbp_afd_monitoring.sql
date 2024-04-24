@@ -15,6 +15,4 @@ CREATE TABLE IF NOT EXISTS smft.t_mbp_afd_monitoring (
     id TEXT NULL,
     creation_date TIMESTAMP NULL,
     resp_prcnt TEXT NULL,
-    resp_max NUMERIC(10, 0) NULL,
-    resp_p_val NUMERIC NULL,
-    resp_p_delay NUMERIC NULL);
+    resp_max NUMERIC(10, 0) NULL);
