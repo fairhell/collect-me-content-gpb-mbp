@@ -52,6 +52,7 @@ db_data = {
                 'ID' : { 'id': TYPE_STR },
                 'CLIENT_TRX_ID' : { 'client_trx_id': TYPE_STR },
                 'EVENT_TIME' : { 'event_time': TYPE_TIMESTAMP },
+                'POLICY_RULE_NAME' : { 'policy_rule_name': TYPE_STR },
             },
             T_OPTIONS: {
                 T_COLUMNS: T_KEYWORDS,
@@ -63,7 +64,7 @@ db_data = {
 # .. WHERE contract_date >= '__NEXT_START_VALUE__' ORDER BY contract_date ASC ..
 # Здесь __NEXT_START_VALUE__ будет автоматически заменено на последнее значение из
 # предыдущей порции данных
-"SELECT ID, CLIENT_TRX_ID, to_char(EVENT_TIME, 'YYYY-MM-DD HH24:MI:SS') EVENT_TIME FROM sfd_rep.SYS_ALL_EVENTS \
+"SELECT ID, CLIENT_TRX_ID, POLICY_RULE_NAME, to_char(EVENT_TIME, 'YYYY-MM-DD HH24:MI:SS') EVENT_TIME FROM sfd_rep.SYS_ALL_EVENTS \
 WHERE EVENT_TIME >= to_date('__NEXT_START_VALUE__', 'YYYY-MM-DD HH24:MI:SS') \
 ORDER BY EVENT_TIME ASC",
                 # Колонка ключа, используется для сохранения __NEXT_START_VALUE__

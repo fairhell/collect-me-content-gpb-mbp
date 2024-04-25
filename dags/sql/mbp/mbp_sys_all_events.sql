@@ -15,4 +15,5 @@ CREATE TABLE IF NOT EXISTS smft.t_mbp_sys_all_events (
 
     id TEXT NULL,
     client_trx_id TEXT NULL,
-    event_time TIMESTAMP NULL);
+    event_time TIMESTAMP NULL,
+    policy_rule_name TEXT NULL);

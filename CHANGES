@@ -1,3 +1,6 @@
+1.15
+SYS_ALL_EVENTS добавлена колонка POLICY_RULE_NAME
+
 1.14
 Колонка времени dt_collected -> date_collected
 
