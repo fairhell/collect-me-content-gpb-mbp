@@ -1,3 +1,6 @@
+1.16
+Added INCIDENT_STEP в таблицу STEP1
+
 1.15
 SYS_ALL_EVENTS добавлена колонка POLICY_RULE_NAME
 
