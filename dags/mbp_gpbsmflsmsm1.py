@@ -63,11 +63,15 @@ db_data = {
 # .. WHERE contract_date >= '__NEXT_START_VALUE__' ORDER BY contract_date ASC ..
 # Здесь __NEXT_START_VALUE__ будет автоматически заменено на последнее значение из
 # предыдущей порции данных
-"SELECT REQUEST_ID, to_char(PROCESSING_STATE_TIME, 'YYYY-MM-DD HH24:MI:SS') PROCESSING_STATE_TIME, to_char(VALIDATE_STATE_TIME, 'YYYY-MM-DD HH24:MI:SS') VALIDATE_STATE_TIME FROM smadmin.GPBSMFLSMSM1 \
-WHERE PROCESSING_STATE_TIME >= to_date('__NEXT_START_VALUE__', 'YYYY-MM-DD HH24:MI:SS') \
+"SELECT REQUEST_ID, \
+to_char(PROCESSING_STATE_TIME, 'YYYY-MM-DD HH24:MI:SS') PROCESSING_STATE_TIME, \
+to_char(VALIDATE_STATE_TIME, 'YYYY-MM-DD HH24:MI:SS') VALIDATE_STATE_TIME, \
+to_char(GREATEST(PROCESSING_STATE_TIME, VALIDATE_STATE_TIME), 'YYYY-MM-DD HH24:MI:SS') CONTROL_TIME \
+FROM smadmin.GPBSMFLSMSM1 \
+WHERE GREATEST(PROCESSING_STATE_TIME, VALIDATE_STATE_TIME) >= to_date('__NEXT_START_VALUE__', 'YYYY-MM-DD HH24:MI:SS') \
 ORDER BY PROCESSING_STATE_TIME ASC",
                 # Колонка ключа, используется для сохранения __NEXT_START_VALUE__
-                T_KEY_COLUMN: 'PROCESSING_STATE_TIME',
+                T_KEY_COLUMN: 'CONTROL_TIME',
                 # Стартовое значение ключа, используется в __NEXT_START_VALUE__, если нет сохраненного
                 T_START_VALUE: '2024-03-28 00:00:00',
                 # Текущее время - TYPE_CURRENT_TIME или  TYPE_VALUE_FROM_DATA - данные из ответа

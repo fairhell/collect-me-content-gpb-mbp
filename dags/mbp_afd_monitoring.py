@@ -52,7 +52,11 @@ db_data = {
                 'ID' : { 'id': TYPE_STR },
                 'CREATION_DATE' : { 'creation_date': TYPE_TIMESTAMP },
                 'RESP_PRCNT': { 'resp_prcnt': TYPE_STR },
-                'RESP_MAX' : { 'resp_max': TYPE_FLOAT },
+                'RESP_MAX': { 'resp_max': TYPE_FLOAT },
+                'HOSTNAME': { 'hostname', TYPE_STR },
+                'SERVERNAME': { 'servername', TYPE_STR },
+                'TPM_IN': { 'tpm_in', TYPE_INT },
+                'TPM_OUT': { 'tpm_out', TYPE_INT },
             },
             T_OPTIONS: {
                 T_COLUMNS: T_KEYWORDS,
@@ -64,7 +68,10 @@ db_data = {
 # .. WHERE contract_date >= '__NEXT_START_VALUE__' ORDER BY contract_date ASC ..
 # Здесь __NEXT_START_VALUE__ будет автоматически заменено на последнее значение из
 # предыдущей порции данных
-"SELECT ID, to_char(CREATION_DATE, 'YYYY-MM-DD HH24:MI:SS') CREATION_DATE, RESP_PRCNT, RESP_MAX FROM sfd.afd_monitoring \
+"SELECT ID, \
+to_char(CREATION_DATE, 'YYYY-MM-DD HH24:MI:SS') CREATION_DATE,  \
+RESP_PRCNT, RESP_MAX, HOSTNAME, SERVERNAME, TPM_IN, TPM_OUT \
+FROM sfd.afd_monitoring \
 WHERE CREATION_DATE >= to_date('__NEXT_START_VALUE__','YYYY-MM-DD HH24:MI:SS') \
 ORDER BY CREATION_DATE ASC",
                 # Колонка ключа, используется для сохранения __NEXT_START_VALUE__

@@ -1,3 +1,8 @@
+1.17
+Удаление INCIDENT_STEP
+Добавление времени GREATEST(ХХ, ХХ) AS CONTROL_TIME для SMS & STEP
+Добавление HOSTNAME, SERVERNAME, TPM_IN, TPM_OUT для AFD_MONITORING
+
 1.16
 Added INCIDENT_STEP в таблицу STEP1
 
