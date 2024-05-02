@@ -1,3 +1,6 @@
+1.18
+Изменение фильтров для задания SOAR
+
 1.17
 Удаление INCIDENT_STEP
 Добавление времени GREATEST(ХХ, ХХ) AS CONTROL_TIME для SMS & STEP

@@ -69,8 +69,8 @@ for request in SOAR_PARAMS.keys():
 
     filter_params = [
         { "property": "category", "operator": "=",  "value": "Инциденты ИБ" },
-        { "property": "status",   "operator": "in", "value": [ "В работе", "Расследование", "Ожидание"] },
-        { "property": "level",    "operator": "in", "value": [ "Критичный", "Высокий", "Средний"] },
+        { "property": "status",   "operator": "in", "value": [ "В работе", "Расследование", "В ожидании"] },
+        { "property": "level",    "operator": "in", "value": [ "Критичный", "Высокий"] },
         { "property": "creation", "operator": ">",  "value": [ "__NEXT_START_VALUE__"] },
     ]
 
