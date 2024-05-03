@@ -39,7 +39,7 @@ local_tz = pendulum.timezone('Europe/Moscow')
 DAG_ID = basename(__file__).replace(FILE_PY, '')
 START_DATE = datetime.datetime(2024, 1, 1, tzinfo = local_tz)
 CONN_FROM = 'ORA_flrsa_srv'
-CONN_TO = 'PG_events'
+CONN_TO = 'PG_events_smft'
 SCHEMA = 'smft'
 
 # Сопоставление колонок в исходной БД и БД для записи
@@ -70,7 +70,7 @@ ORDER BY EVENT_TIME ASC",
                 # Колонка ключа, используется для сохранения __NEXT_START_VALUE__
                 T_KEY_COLUMN: 'EVENT_TIME',
                 # Стартовое значение ключа, используется в __NEXT_START_VALUE__, если нет сохраненного
-                T_START_VALUE: '2024-04-09 00:00:00',
+                T_START_VALUE: '2024-04-24 19:31:09',
                 # Текущее время - TYPE_CURRENT_TIME или  TYPE_VALUE_FROM_DATA - данные из ответа
                 T_START_VALUE_TYPE: TYPE_VALUE_FROM_DATA,
             }

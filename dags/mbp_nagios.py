@@ -38,7 +38,7 @@ DAG_ID = basename(__file__).replace(FILE_PY, '')
 START_DATE = datetime.datetime(2023, 1, 1, tzinfo = local_tz)
 API_TOKEN = Variable.get('Nagios_token', default_var = None)
 CONN_FROM = 'REST_nagios'
-CONN_TO = 'PG_events'
+CONN_TO = 'PG_events_nagios'
 SCHEMA = 'nagios'
 
 

@@ -89,9 +89,12 @@ def calc_resp_p_val(data: str):
                 break
     return result
 
-def replace_soar_start_value(options: list, start_value):
-    options[3].update({ 'value': start_value })
-    return options
+def replace_soar_start_value(options: str, start_value):
+    import json
+    json_opts = json.loads(options)
+    # Меняем стартовое значение (второй элемент списка)
+    json_ops[1].update({ 'value': start_value })
+    return json.dumps(json_opts)
 
 
 def soar_preprocess_data(data: list):

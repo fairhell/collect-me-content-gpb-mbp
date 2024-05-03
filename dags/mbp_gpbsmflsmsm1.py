@@ -39,7 +39,7 @@ local_tz = pendulum.timezone('Europe/Moscow')
 DAG_ID = basename(__file__).replace(FILE_PY, '')
 START_DATE = datetime.datetime(2024, 1, 1, tzinfo = local_tz)
 CONN_FROM = 'ORA_mfsm_srv'
-CONN_TO = 'PG_events'
+CONN_TO = 'PG_events_smft'
 SCHEMA = 'smft'
 
 # Сопоставление колонок в исходной БД и БД для записи

@@ -32,6 +32,7 @@ from utils.common import start_end_ops, create_tables_op, insert_cleanup_ops
 from utils.data_to_sql import db_columns_from_schemas
 from utils.rest_to_sql import rest_ops, extract_prepare_rest_ops
 import pendulum
+import json
 
 local_tz = pendulum.timezone('Europe/Moscow')
 
@@ -40,7 +41,7 @@ DAG_ID = basename(__file__).replace(FILE_PY, '')
 START_DATE = datetime.datetime(2023, 1, 1, tzinfo = local_tz)
 API_TOKEN = Variable.get('Soar_token', default_var = None)
 CONN_FROM = 'REST_soar'
-CONN_TO = 'PG_events'
+CONN_TO = 'PG_events_soar'
 SCHEMA = 'soar'
 
 
@@ -69,9 +70,7 @@ for request in SOAR_PARAMS.keys():
 
     filter_params = [
         { "property": "category", "operator": "=",  "value": "Инциденты ИБ" },
-        { "property": "status",   "operator": "in", "value": [ "В работе", "Расследование", "В ожидании"] },
-        { "property": "level",    "operator": "in", "value": [ "Критичный", "Высокий"] },
-        { "property": "creation", "operator": ">",  "value": [ "__NEXT_START_VALUE__"] },
+        { "property": "updated", "operator": ">",  "value": [ "__NEXT_START_VALUE__"] },
     ]
 
     for param in SOAR_PARAMS.get(request):
@@ -103,8 +102,8 @@ for request in SOAR_PARAMS.keys():
                     T_ENDPOINT: 'api/v2/incidents',
                     T_DATA: {
                         "token": API_TOKEN,
-                        "fields": ["identifier", "creation", "description", "level", "status", "updated", "incident_owner", "closure_date", "IRP_arcSrcIP", "IRP_arcDstIP"],
-                        "filter": filter_params,
+                        "fields": json.dumps(["identifier", "creation", "description", "level", "status", "updated", "incident_owner", "closure_date", "IRP_arcSrcIP", "IRP_arcDstIP"]),
+                        "filter": json.dumps(filter_params),
                     },
                     T_RESPONSE_CHECK: lambda response: response.json()["success"] == True,
                     T_RESPONSE_FILTER: lambda response: response.json()["data"],
