@@ -171,8 +171,8 @@ with DAG(
         T_LOG_TABLE: SCHEMA + '.t_' + DAG_ID + '_log',
         T_COLUMN_DATE: 'date_collected',
         T_COLUMN_STATUS: 'is_success',
-        T_COLUMN_GROUP: 'host_name',
-        T_COLUMN_TASK: 'metric_name',
+        T_COLUMN_GROUP: 'groupname',
+        T_COLUMN_TASK: 'task',
         T_COLUMN_EXTRA: 'extra',
         T_EXTRA_VALUE_FUNC: lambda group, task: globals()['soar_extra_properties'](rest_data[CONN_FROM], group, task),
     }
