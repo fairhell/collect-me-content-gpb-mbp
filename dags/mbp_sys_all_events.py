@@ -112,6 +112,15 @@ with DAG(
     start_date = START_DATE,
     dagrun_timeout = datetime.timedelta(minutes=30),
     tags=[ CUSTOMER, 'mbp', 'database', 'select', 'portion', 'oracle' ],
+    params = {
+        T_EXTRA_LOG: True,
+        T_LOG_CONID: CONN_TO,
+        T_LOG_TABLE: SCHEMA + '.t_' + DAG_ID + '_log',
+        T_COLUMN_DATE: 'date_collected',
+        T_COLUMN_STATUS: 'is_success',
+        T_COLUMN_TABLE: 'table_name',
+        T_COLUMN_EXTRA: 'extra',
+    }
 ) as dag:
 
     if hasattr(dag, 'doc_md'):

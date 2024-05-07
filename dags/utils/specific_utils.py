@@ -7,27 +7,27 @@
 
 def extract_cpu(data: str):
     import re
-    result = re.search(r'^OK: percent was ([\d.]+) %$', data)
-    return float(result.group(1))/100 if result else None
+    result = re.search(r'Percent was ([\d.]+) %', data)
+    return round(float(result.group(1))/100, 4) if result else None
 
 def extract_disk(data: str):
     import re
-    result = re.search(r'^OK: used percent was ([\d.]+) %$', data)
-    return float(result.group(1))/100 if result else None
+    result = re.search(r'Used percent was ([\d.]+) %', data)
+    return round(float(result.group(1))/100, 4) if result else None
 
 def extract_memory(data: str):
     import re
-    result = re.search(r'^OK: Memory usage was ([\d.]+) %.*$', data)
-    return float(result.group(1))/100 if result else None
+    result = re.search(r'Memory usage was ([\d.]+) %', data)
+    return round(float(result.group(1))/100, 4) if result else None
 
 def extract_ping_loss(data: str):
     import re
-    result = re.search(r'^PING OK - Packet loss = ([\d.]+)%, RTA = [\d.]+ ms$', data)
-    return result.group(1) if result else None
+    result = re.search(r'Packet loss = ([\d.]+)%', data)
+    return round(float(result.group(1))/100, 4) if result else None
 
 def extract_ping_rta(data: str):
     import re
-    result = re.search(r'^PING OK - Packet loss = [\d.]+%, RTA = ([\d.]+) ms$', data)
+    result = re.search(r'RTA = ([\d.]+) ms', data)
     return result.group(1) if result else None
 
 def cpu_load_prcnt(data):
@@ -93,7 +93,7 @@ def replace_soar_start_value(options: str, start_value):
     import json
     json_opts = json.loads(options)
     # Меняем стартовое значение (второй элемент списка)
-    json_ops[1].update({ 'value': start_value })
+    json_opts[1].update({ 'value': start_value })
     return json.dumps(json_opts)
 
 
@@ -134,11 +134,33 @@ def soar_preprocess_data(data: list):
                 for nested_key in schema_key.keys():
                     plain_json.update({ schema.get(schema_key).get(nested_key): item.get(nested_key) })
             else:
-                plain_json.update({ schema.get(schema_key): item.get(nested_key) })
+                plain_json.update({ schema.get(schema_key): item.get(schema_key) })
 
         json_list.append(plain_json)
 
     return pd.json_normalize(json_list)
+
+
+def soar_extra_properties(schema: dict, group: str, task: str):
+    from utils.check_running import safe_name
+
+    # Для БД пропускаем. Ищем только для REST
+    if task == T_SQL_PORTION:
+        return 'NULL'
+
+    for item_key in schema.keys():
+        group_dict = schema.get(item_key)
+        if safe_name(item_key) == group:
+            for task_key in group_dict.keys():
+                task_dict = group_dict.get(task_key)
+                if safe_name(task_key) == task:
+                    extra_options = task_dict.get(T_OPTIONS).get(T_REST_PARAMS).get(T_DATA)
+                    # Удаляем из логов токен
+                    extra_options.pop('token', None)
+                    return extra_options
+
+    return 'NULL'
+
 
 # Конец секции hvrfRnVLKcak1Xty. Не удаляйте данную строку!
 

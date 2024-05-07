@@ -4,7 +4,7 @@
 --
 
 --DROP TABLE IF EXISTS soar.t_mbp_soar;
-
+--DROP TABLE IF EXISTS soar.t_mbp_soar_log;
 
 --
 -- Основная таблица
@@ -27,3 +27,13 @@ CREATE TABLE IF NOT EXISTS soar.t_mbp_soar (
     status_name TEXT NULL,
     updated_date TIMESTAMP NULL,
     closure_date TIMESTAMP NULL);
+
+
+CREATE TABLE IF NOT EXISTS smft.t_mbp_soar_log (
+    skey BIGSERIAL NOT NULL,       -- ключ
+    date_collected TIMESTAMP DEFAULT timezone('UTC'::TEXT, clock_timestamp()) NOT NULL,     -- метка времени
+    is_success BOOLEAN NOT NULL,
+    groupname TEXT NULL,
+    task TEXT NULL,
+    extra TEXT NULL,
+    CONSTRAINT t_mbp_soar_log_pkey PRIMARY KEY(skey));

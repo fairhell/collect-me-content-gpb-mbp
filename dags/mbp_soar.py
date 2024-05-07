@@ -31,6 +31,7 @@ from config.config_mbp import CUSTOMER
 from utils.common import start_end_ops, create_tables_op, insert_cleanup_ops
 from utils.data_to_sql import db_columns_from_schemas
 from utils.rest_to_sql import rest_ops, extract_prepare_rest_ops
+from utils.specific_utils import soar_extra_properties
 import pendulum
 import json
 
@@ -164,6 +165,17 @@ with DAG(
     start_date = START_DATE,
     dagrun_timeout = datetime.timedelta(minutes=30),
     tags=[ CUSTOMER, 'rest', 'R-vision', 'SOAR', 'portion', 'advanced' ],
+    params = {
+        T_EXTRA_LOG: True,
+        T_LOG_CONID: CONN_TO,
+        T_LOG_TABLE: SCHEMA + '.t_' + DAG_ID + '_log',
+        T_COLUMN_DATE: 'date_collected',
+        T_COLUMN_STATUS: 'is_success',
+        T_COLUMN_GROUP: 'host_name',
+        T_COLUMN_TASK: 'metric_name',
+        T_COLUMN_EXTRA: 'extra',
+        T_EXTRA_VALUE_FUNC: lambda group, task: globals()['soar_extra_properties'](rest_data[CONN_FROM], group, task),
+    }
 ) as dag:
 
     if hasattr(dag, 'doc_md'):
