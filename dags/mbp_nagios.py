@@ -146,8 +146,6 @@ db_columns_list = db_columns_from_schemas([
     [rest_data, SRC_REST_DATA]
 ])
 
-print(db_columns_list)
-
 # Массив, задающий файлы входные и выходные, а также колонки для чтения
 rest_schema = {
     T_INPUT: {
@@ -174,7 +172,7 @@ rest_schema = {
 with DAG(
     dag_id = DAG_ID,
     default_args = DEFAULT_DAG_ARGS,
-    schedule_interval = '@once',
+    schedule_interval = '*/5 * * * *',
     start_date = START_DATE,
     dagrun_timeout = datetime.timedelta(minutes=30),
     tags=[ CUSTOMER, 'rest', '', 'nagios', 'portion', 'advanced' ],
