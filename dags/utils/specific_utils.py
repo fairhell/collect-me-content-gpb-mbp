@@ -12,7 +12,7 @@ def extract_cpu(data: str):
 
 def extract_disk(data: str):
     import re
-    result = re.search(r'Used percent was ([\d.]+) %', data)
+    result = re.search(r'Used_percent was ([\d.]+) %', data)
     return round(float(result.group(1))/100, 4) if result else None
 
 def extract_memory(data: str):
