@@ -107,7 +107,7 @@ for request in SOAR_PARAMS.keys():
                         "filter": json.dumps(filter_params),
                     },
                     T_RESPONSE_CHECK: lambda response: response.json()["success"] == True,
-                    T_RESPONSE_FILTER: lambda response: response.json()["data"],
+                    T_RESPONSE_FILTER: lambda response: response.json()["data"]["result"],
                 },
                 # Колонка ключа, используется для сохранения __NEXT_START_VALUE__
                 T_KEY_COLUMN: 'filter',

@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS soar.t_mbp_soar (
     closure_date TIMESTAMP NULL);
 
 
-CREATE TABLE IF NOT EXISTS smft.t_mbp_soar_log (
+CREATE TABLE IF NOT EXISTS soar.t_mbp_soar_log (
     skey BIGSERIAL NOT NULL,       -- ключ
     date_collected TIMESTAMP DEFAULT timezone('UTC'::TEXT, clock_timestamp()) NOT NULL,     -- метка времени
     is_success BOOLEAN NOT NULL,

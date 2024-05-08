@@ -123,7 +123,7 @@ with DAG(
     params = {
         T_EXTRA_LOG: True,
         T_LOG_CONID: CONN_TO,
-        T_LOG_TABLE: SCHEMA + '.t_' + DAG_ID + '_log',
+        T_LOG_TABLE: SCHEMA + '.t_mbp_smft_log',
         T_COLUMN_DATE: 'date_collected',
         T_COLUMN_STATUS: 'is_success',
         T_COLUMN_TABLE: 'table_name',

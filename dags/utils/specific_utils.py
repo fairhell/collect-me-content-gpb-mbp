@@ -125,15 +125,20 @@ def soar_preprocess_data(data: list):
     }
 
     json_list = []
+    print('___DEBUG 1')
+    print(data)
 
     for item in data:
         plain_json = {}
+        print('____DEBUG 2, item', item)
 
         for schema_key in schema.keys():
             if isinstance(schema_key, dict):
+                print('____DEBUG 3, schema_key', shema_key)
                 for nested_key in schema_key.keys():
-                    plain_json.update({ schema.get(schema_key).get(nested_key): item.get(nested_key) })
+                    plain_json.update({ schema.get(schema_key).get(nested_key): item.get(schema_key).get(nested_key) })
             else:
+                print('____DEBUG 4, schema_key', shema_key)
                 plain_json.update({ schema.get(schema_key): item.get(schema_key) })
 
         json_list.append(plain_json)
