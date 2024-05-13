@@ -11,7 +11,7 @@
 --
 CREATE TABLE IF NOT EXISTS smft.t_mbp_afd_monitoring (
     skey BIGSERIAL PRIMARY KEY,       -- ключ
-    date_collected TIMESTAMP NOT NULL,     -- метка времени
+    date_collected TIMESTAMP DEFAULT timezone('UTC'::TEXT, clock_timestamp()) NOT NULL,     -- метка времени
 
     id TEXT NULL,
     creation_date TIMESTAMP NULL,

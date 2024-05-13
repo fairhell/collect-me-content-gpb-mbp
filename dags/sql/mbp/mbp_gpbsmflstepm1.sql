@@ -11,7 +11,7 @@
 --
 CREATE TABLE IF NOT EXISTS smft.t_mbp_gpbsmflstepm1 (
     skey BIGSERIAL PRIMARY KEY,       -- ключ
-    date_collected TIMESTAMP NOT NULL,     -- метка времени
+    date_collected TIMESTAMP DEFAULT timezone('UTC'::TEXT, clock_timestamp()) NOT NULL,     -- метка времени
 
     incident_id TEXT NULL,
     create_time TIMESTAMP NULL,

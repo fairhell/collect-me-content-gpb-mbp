@@ -11,7 +11,7 @@
 --
 CREATE TABLE IF NOT EXISTS soar.t_mbp_soar (
     skey BIGSERIAL PRIMARY KEY,       -- ключ
-    date_collected TIMESTAMP NOT NULL,     -- метка времени
+    date_collected TIMESTAMP DEFAULT timezone('UTC'::TEXT, clock_timestamp()) NOT NULL,     -- метка времени
 
     identifier TEXT NULL,
     creation_date TIMESTAMP NULL,

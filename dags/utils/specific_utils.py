@@ -133,12 +133,13 @@ def soar_preprocess_data(data: list):
         print('____DEBUG 2, item', item)
 
         for schema_key in schema.keys():
-            if isinstance(schema_key, dict):
-                print('____DEBUG 3, schema_key', shema_key)
-                for nested_key in schema_key.keys():
-                    plain_json.update({ schema.get(schema_key).get(nested_key): item.get(schema_key).get(nested_key) })
+            schema_item = schema.get(schema_key)
+            if isinstance(schema_item, dict):
+                print('____DEBUG 3, schema_key', schema_key, schema_item)
+                for nested_key in schema_item.keys():
+                    plain_json.update({ schema_item.get(nested_key): item.get(schema_key).get(nested_key) })
             else:
-                print('____DEBUG 4, schema_key', shema_key)
+                print('____DEBUG 4, schema_key', schema_key)
                 plain_json.update({ schema.get(schema_key): item.get(schema_key) })
 
         json_list.append(plain_json)

@@ -11,7 +11,7 @@
 --
 CREATE TABLE IF NOT EXISTS nagios.t_mbp_nagios (
     skey BIGSERIAL PRIMARY KEY,       -- ключ
-    date_collected TIMESTAMP NOT NULL,     -- метка времени
+    date_collected TIMESTAMP DEFAULT timezone('UTC'::TEXT, clock_timestamp()) NOT NULL,     -- метка времени
 
     output TEXT NULL,
     host_name TEXT NULL,
