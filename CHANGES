@@ -1,3 +1,6 @@
+1.30
+Обновление specific_utils для SOAR. Проверка пустых значений ответов
+
 1.29
 Обновление specific_utils для SOAR.
 Обновление SQL - date_сollected WITH TIMEZONE

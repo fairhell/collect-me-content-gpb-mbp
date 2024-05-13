@@ -137,7 +137,12 @@ def soar_preprocess_data(data: list):
             if isinstance(schema_item, dict):
                 print('____DEBUG 3, schema_key', schema_key, schema_item)
                 for nested_key in schema_item.keys():
-                    plain_json.update({ schema_item.get(nested_key): item.get(schema_key).get(nested_key) })
+                    try:
+                        item_value = item.get(schema_key).get(nested_key)
+                    except AttributeError:
+                        item_value = None
+                        pass
+                    plain_json.update({ schema_item.get(nested_key): item_value })
             else:
                 print('____DEBUG 4, schema_key', schema_key)
                 plain_json.update({ schema.get(schema_key): item.get(schema_key) })
