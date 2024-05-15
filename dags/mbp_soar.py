@@ -82,9 +82,9 @@ for request in SOAR_PARAMS.keys():
         'status': {
             T_COLUMNS: {
                 # Откуда (REST запрос) - Куда (колонка): Тип
-                'creation_date' : { 'creation_date': TYPE_TIMESTAMP },
+                'creation' : { 'creation_date': TYPE_TIMESTAMP },
                 'closure_date' : { 'closure_date': TYPE_TIMESTAMP },
-                'updated_date' : { 'updated_date': TYPE_TIMESTAMP },
+                'updated' : { 'updated_date': TYPE_TIMESTAMP },
                 'identifier' : { 'identifier': TYPE_STR },
                 'description' : { 'description': TYPE_STR },
                 'incident_owner.id' : { 'inc_owner_id': TYPE_INT },
