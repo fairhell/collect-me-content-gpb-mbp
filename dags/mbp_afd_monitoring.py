@@ -127,6 +127,7 @@ with DAG(
         T_COLUMN_DATE: 'date_collected',
         T_COLUMN_STATUS: 'is_success',
         T_COLUMN_TABLE: 'table_name',
+        T_TABLE_VALUE: 't_mbp_afd_monitoring',
         T_COLUMN_EXTRA: 'extra',
     }
 ) as dag:

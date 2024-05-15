@@ -67,10 +67,10 @@ db_data = {
 "SELECT INCIDENT_ID, \
 to_char(CREATE_TIME, 'YYYY-MM-DD HH24:MI:SS') CREATE_TIME, \
 to_char(WORK_START_TIME, 'YYYY-MM-DD HH24:MI:SS') WORK_START_TIME, \
-to_char(GREATEST(CREATE_TIME, WORK_START_TIME), 'YYYY-MM-DD HH24:MI:SS') CONTROL_TIME, \
+to_char(GREATEST(COALESCE(CREATE_TIME,to_date('01-01-01','YY-MM-DD')), COALESCE(WORK_START_TIME,to_date('01-01-01','YY-MM-DD'))), 'YYYY-MM-DD HH24:MI:SS') CONTROL_TIME, \
 ASSIGNMENT \
 FROM smadmin.GPBSMFLSTEPM1 \
-WHERE GREATEST(CREATE_TIME, WORK_START_TIME) >= to_date('__NEXT_START_VALUE__', 'YYYY-MM-DD HH24:MI:SS') \
+WHERE GREATEST(COALESCE(CREATE_TIME,to_date('01-01-01','YY-MM-DD')), COALESCE(WORK_START_TIME,to_date('01-01-01','YY-MM-DD'))) >= to_date('__NEXT_START_VALUE__', 'YYYY-MM-DD HH24:MI:SS') \
 ORDER BY CREATE_TIME ASC",
                 # Колонка ключа, используется для сохранения __NEXT_START_VALUE__
                 T_KEY_COLUMN: 'CONTROL_TIME',
@@ -124,6 +124,7 @@ with DAG(
         T_COLUMN_DATE: 'date_collected',
         T_COLUMN_STATUS: 'is_success',
         T_COLUMN_TABLE: 'table_name',
+        T_TABLE_VALUE: 't_mbp_gpbsmflstepm1',
         T_COLUMN_EXTRA: 'extra',
     }
 ) as dag:

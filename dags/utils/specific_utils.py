@@ -98,7 +98,7 @@ def replace_soar_start_value(options: str, start_value):
 
 
 def soar_preprocess_data(data: list):
-    import pandas as pd
+#    import pandas as pd
 
     schema = {
         'creation': 'creation_date',
@@ -147,9 +147,10 @@ def soar_preprocess_data(data: list):
                 print('____DEBUG 4, schema_key', schema_key)
                 plain_json.update({ schema.get(schema_key): item.get(schema_key) })
 
-        json_list.append(plain_json)
+        json_list.append({ 0: plain_json })
 
-    return pd.json_normalize(json_list)
+    print('_______DEBUG 5', json_list)
+    return json_list
 
 
 def soar_extra_properties(schema: dict, group: str, task: str):
@@ -168,7 +169,11 @@ def soar_extra_properties(schema: dict, group: str, task: str):
                     extra_options = task_dict.get(T_OPTIONS).get(T_REST_PARAMS).get(T_DATA)
                     # Удаляем из логов токен
                     extra_options.pop('token', None)
-                    return extra_options
+                    properties = extra_options.get('filter')
+                    if properties is not None:
+                        return properties
+                    else:
+                        return extra_options
 
     return 'NULL'
 

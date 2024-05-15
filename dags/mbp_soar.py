@@ -81,21 +81,21 @@ for request in SOAR_PARAMS.keys():
         # запрос
         'status': {
             T_COLUMNS: {
-                # Поскольку мы получаем данные из функции препроцессинга, то имена колонок совпадают
+                # Откуда (REST запрос) - Куда (колонка): Тип
                 'creation_date' : { 'creation_date': TYPE_TIMESTAMP },
                 'closure_date' : { 'closure_date': TYPE_TIMESTAMP },
-                'updated_date' : { 'updsted_date': TYPE_TIMESTAMP },
+                'updated_date' : { 'updated_date': TYPE_TIMESTAMP },
                 'identifier' : { 'identifier': TYPE_STR },
                 'description' : { 'description': TYPE_STR },
-                'inc_owner_id' : { 'inc_owner_id': TYPE_INT },
-                'inc_owner_name' : { 'inc_owner_name': TYPE_STR },
-                'inc_owner_uuid' : { 'inc_owner_uuid': TYPE_STR },
-                'irp_src_ip' : { 'irp_src_ip': TYPE_STR },
-                'irp_dst_ip' : { 'irp_dst_ip': TYPE_STR },
-                'level_id' : { 'level_id': TYPE_INT },
-                'level_name' : { 'level_name': TYPE_STR },
-                'status_id' : { 'status_id': TYPE_INT },
-                'status_name' : { 'status_name': TYPE_STR },
+                'incident_owner.id' : { 'inc_owner_id': TYPE_INT },
+                'incident_owner.name' : { 'inc_owner_name': TYPE_STR },
+                'incident_owner.uuid' : { 'inc_owner_uuid': TYPE_STR },
+                'irp_arcsrcip' : { 'irp_src_ip': TYPE_STR },
+                'irp_arcdstip' : { 'irp_dst_ip': TYPE_STR },
+                'level.id' : { 'level_id': TYPE_INT },
+                'level.name' : { 'level_name': TYPE_STR },
+                'status.id' : { 'status_id': TYPE_INT },
+                'status.name' : { 'status_name': TYPE_STR },
             },
             T_OPTIONS: {
                 T_COLUMNS: T_KEYWORDS,
@@ -119,9 +119,6 @@ for request in SOAR_PARAMS.keys():
                 T_START_VALUE_TIME_FORMAT: '%Y-%m-%d %H:%M:%S',
                 # Функция особой замены стартового значения (необходимо, если параметры REST запроса сложные или вложенные)
                 T_START_CUSTOM_REPLACE: 'replace_soar_start_value',
-            },
-            T_EXTRACT_PARAMS: {
-                T_PREPROCESS_FUNC: 'soar_preprocess_data',
             },
         },
     }
