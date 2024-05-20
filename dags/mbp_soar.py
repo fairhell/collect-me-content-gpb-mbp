@@ -48,14 +48,14 @@ SCHEMA = 'soar'
 
 SOAR_PARAMS = {
     "SrcIP_between": [
-        { "property": "IRP_arcSrcIP", "operator": "between",     "value": ["10.180.16.28", "10.180.16.36"] },
-        { "property": "IRP_arcSrcIP", "operator": "not between", "value": ["10.180.16.44", "10.180.16.51"] },
-        { "property": "IRP_arcSrcIP", "operator": "not between", "value": ["10.180.16.54", "10.180.16.58"] },
+        { "property": "IRP_arcSrcIP", "operator": "between",     "value": ["10.180.16.28", "10.180.16.58"] },
+        { "property": "IRP_arcSrcIP", "operator": "not between", "value": ["10.180.16.37", "10.180.16.43"] },
+        { "property": "IRP_arcSrcIP", "operator": "not between", "value": ["10.180.16.52", "10.180.16.53"] },
     ],
     "DstIP_between": [
-        { "property": "IRP_arcDstIP", "operator": "between",     "value": ["10.180.16.28", "10.180.16.36"] },
-        { "property": "IRP_arcDstIP", "operator": "not between", "value": ["10.180.16.44", "10.180.16.51"] },
-        { "property": "IRP_arcDstIP", "operator": "not between", "value": ["10.180.16.54", "10.180.16.58"] },
+        { "property": "IRP_arcDstIP", "operator": "between",     "value": ["10.180.16.28", "10.180.16.58"] },
+        { "property": "IRP_arcDstIP", "operator": "not between", "value": ["10.180.16.37", "10.180.16.43"] },
+        { "property": "IRP_arcDstIP", "operator": "not between", "value": ["10.180.16.52", "10.180.16.53"] },
     ],
     "DstIP_in": [
         { "property": "IRP_arcDstIP", "operator": "in", "value": ["10.180.16.87", "10.180.16.178", "10.180.17.241", "10.180.17.242"] },

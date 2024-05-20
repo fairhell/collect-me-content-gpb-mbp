@@ -25,7 +25,7 @@ local_tz = pendulum.timezone('Europe/Moscow')
 # Основные параметры
 DAG_ID = basename(__file__).replace(FILE_PY, '')
 START_DATE = datetime.datetime(2023, 1, 1, tzinfo = local_tz)
-CONN_TO = 'PG_events_soar'
+CONN_TO = 'PG_dds'
 
 with DAG(
     dag_id = DAG_ID,
