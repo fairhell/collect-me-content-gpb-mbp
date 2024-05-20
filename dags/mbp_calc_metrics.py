@@ -44,7 +44,7 @@ with DAG(
 
     # оператор создания структуры таблиц и представлений
     calculate_metrics = create_tables_op(
-        dag_id = DAG_ID, customer = CUSTOMER, connId = CONN_TO)
+        dag_id = DAG_ID, customer = CUSTOMER, connId = CONN_TO, taskId = 'calculate_metrics')
 
     # последовательность выполения операторов
     start >> calculate_metrics >> end

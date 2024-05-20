@@ -74,6 +74,10 @@ for request in SOAR_PARAMS.keys():
         { "property": "updated", "operator": ">",  "value": [ "__NEXT_START_VALUE__"] },
     ]
 
+    sort_params = [
+        { "property": "updated", "direction": "ASC" },
+    ]
+
     for param in SOAR_PARAMS.get(request):
         filter_params.append(param)
 
@@ -105,16 +109,19 @@ for request in SOAR_PARAMS.keys():
                         "token": API_TOKEN,
                         "fields": json.dumps(["identifier", "creation", "description", "level", "status", "updated", "incident_owner", "closure_date", "IRP_arcSrcIP", "IRP_arcDstIP"]),
                         "filter": json.dumps(filter_params),
+                        "sort": json.dumps(sort_params),
                     },
                     T_RESPONSE_CHECK: lambda response: response.json()["success"] == True,
                     T_RESPONSE_FILTER: lambda response: response.json()["data"]["result"],
                 },
-                # Колонка ключа, используется для сохранения __NEXT_START_VALUE__
+                # Колонка ключа, используется для __NEXT_START_VALUE__
                 T_KEY_COLUMN: 'filter',
+                # Колонка ключа данных, для сохранения. Важно использовать сортировку в запросе
+                T_DATA_KEY: 'updated',
                 # Стартовое значение ключа, используется в __NEXT_START_VALUE__, если нет сохраненного
                 T_START_VALUE: '2024-04-24T14:22:00',
                 # TYPE_CURRENT_TIME | TYPE_VALUE_FROM_DATA
-                T_START_VALUE_TYPE: TYPE_CURRENT_TIME,
+                T_START_VALUE_TYPE: TYPE_VALUE_FROM_DATA,
                 # Стандартный формат datetime.strftime , например, '%Y-%m-%d %H:%M:%S'.
                 T_START_VALUE_TIME_FORMAT: '%Y-%m-%d %H:%M:%S',
                 # Функция особой замены стартового значения (необходимо, если параметры REST запроса сложные или вложенные)
